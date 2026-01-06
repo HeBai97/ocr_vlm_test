@@ -1,0 +1,17 @@
+# 忽略目录
+bookpic/
+models/
+*_output/
+__pycache__/
+
+# Python 相关
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# 其他常见忽略项
+*.log
+*.tmp
+.DS_Store
+

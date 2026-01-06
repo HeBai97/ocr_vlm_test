@@ -1,0 +1,78 @@
+# ============================================================================
+# 基础依赖
+# ============================================================================
+# HTTP 请求库
+requests
+
+# Web 框架
+flask
+flask-cors
+
+# 图像处理
+opencv-python
+Pillow
+numpy
+
+# ============================================================================
+# DotsOCR 相关依赖
+# ============================================================================
+# PDF 处理
+PyMuPDF  # fitz 模块
+
+# 进度条
+tqdm
+
+# HuggingFace 相关
+transformers>=4.51.3
+huggingface-hub
+accelerate
+qwen-vl-utils
+
+# 模型下载
+modelscope
+
+# Flash Attention (可选，但推荐用于性能优化)
+# 注意：flash-attn 需要从源码编译，安装前确保已安装 torch
+# 安装方法：
+# 1. 确保已安装 torch 和 CUDA 开发工具
+# 2. 运行：pip install flash-attn --no-build-isolation
+# 或者使用预编译版本（如果可用）：
+# pip install flash-attn==2.8.0.post2 --no-build-isolation
+# 
+# 如果安装失败，可以跳过此依赖，模型仍可正常运行，只是速度可能稍慢
+
+# ============================================================================
+# PaddleOCRVL 相关依赖
+# ============================================================================
+# PaddleOCRVL 通常包含在 paddleocr 包中
+# 如果使用 PaddleOCRVL，需要安装：
+paddleocr>=2.7.0
+paddlepaddle  # PaddleOCRVL 的底层依赖
+
+# ============================================================================
+# PyTorch 相关 (根据 CUDA 版本选择，需要单独安装)
+# ============================================================================
+# 注意：PyTorch 需要根据您的 CUDA 版本单独安装，不包含在此文件中
+# 
+# CUDA 12.8 安装示例：
+# pip install torch==2.7.0 torchvision==0.22.0 torchaudio==2.7.0 --index-url https://download.pytorch.org/whl/cu128
+#
+# CUDA 11.8 安装示例：
+# pip install torch==2.7.0 torchvision==0.22.0 torchaudio==2.7.0 --index-url https://download.pytorch.org/whl/cu118
+#
+# CPU 版本：
+# pip install torch==2.7.0 torchvision==0.22.0 torchaudio==2.7.0
+#
+# 查看所有可用版本：https://pytorch.org/get-started/previous-versions/
+
+# ============================================================================
+# 可选依赖（用于 Gradio 界面）
+# ============================================================================
+# gradio
+# gradio-image-annotation
+
+# ============================================================================
+# 开发依赖（可选）
+# ============================================================================
+# openai  # 如果使用 OpenAI API
+
