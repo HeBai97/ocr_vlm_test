@@ -549,6 +549,23 @@ def draw_bboxes_from_cells(cells: List[dict], image_path: str, output_path: str 
         except:
             font = ImageFont.load_default()
     
+    # 确定输出路径
+    if output_path is None:
+        image_name = pathlib.Path(image_path).stem
+        output_path = f"{image_name}_annotated.jpg"
+    
+    # 确保输出目录存在
+    output_dir = pathlib.Path(output_path).parent
+    if output_dir and not output_dir.exists():
+        output_dir.mkdir(parents=True, exist_ok=True)
+    
+    # 如果没有解析结果，直接保存原图
+    if not cells:
+        print("未找到解析结果，保存原图作为标注图片")
+        image.save(output_path, "JPEG", quality=95)
+        print(f"原图已保存到: {output_path}")
+        return image, output_path
+    
     # 创建绘制对象
     draw = ImageDraw.Draw(image)
     
@@ -614,15 +631,6 @@ def draw_bboxes_from_cells(cells: List[dict], image_path: str, output_path: str 
                 draw.text((text_x, text_y), label_text, fill=color)
     
     # 保存结果
-    if output_path is None:
-        image_name = pathlib.Path(image_path).stem
-        output_path = f"{image_name}_annotated.jpg"
-    
-    # 确保输出目录存在
-    output_dir = pathlib.Path(output_path).parent
-    if output_dir and not output_dir.exists():
-        output_dir.mkdir(parents=True, exist_ok=True)
-    
     image.save(output_path, "JPEG", quality=95)
     print(f"标注后的图片已保存到: {output_path}")
     

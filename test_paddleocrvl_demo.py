@@ -64,9 +64,22 @@ def draw_bboxes_from_paddleocrvl(paddleocrvl_result, image_path: str, output_pat
             print(f"无法从 PaddleOCRVL 结果中提取 parsing_res_list: {e}")
             return None, None
     
+    # 确定输出路径
+    if output_path is None:
+        image_name = pathlib.Path(image_path).stem
+        output_path = f"{image_name}_annotated.jpg"
+    
+    # 确保输出目录存在
+    output_dir = pathlib.Path(output_path).parent
+    if output_dir and not output_dir.exists():
+        output_dir.mkdir(parents=True, exist_ok=True)
+    
+    # 如果没有解析结果，直接保存原图
     if not parsing_res_list:
-        print("未找到解析结果")
-        return None, None
+        print("未找到解析结果，保存原图作为标注图片")
+        image.save(output_path, "JPEG", quality=95)
+        print(f"原图已保存到: {output_path}")
+        return image, output_path
     
     # 创建绘制对象
     draw = ImageDraw.Draw(image)
@@ -126,15 +139,6 @@ def draw_bboxes_from_paddleocrvl(paddleocrvl_result, image_path: str, output_pat
                 draw.text((text_x, text_y), label_text, fill=color)
     
     # 保存结果
-    if output_path is None:
-        image_name = pathlib.Path(image_path).stem
-        output_path = f"{image_name}_annotated.jpg"
-    
-    # 确保输出目录存在
-    output_dir = pathlib.Path(output_path).parent
-    if output_dir and not output_dir.exists():
-        output_dir.mkdir(parents=True, exist_ok=True)
-    
     image.save(output_path, "JPEG", quality=95)
     print(f"标注后的图片已保存到: {output_path}")
     
@@ -214,7 +218,7 @@ def parse_image_with_paddleocrvl(image_path: str,
         
         annotated_image, annotated_path_result = draw_bboxes_from_paddleocrvl(res, image_path, output_path=annotated_path)
         if annotated_image is None or annotated_path_result is None:
-            print(f"警告: 无法为图片 {image_path} 生成标注图片（可能没有解析到内容）")
+            print(f"警告: 无法为图片 {image_path} 生成标注图片")
     
     print(f"解析完成，结果已保存到: {output_dir}")
     
