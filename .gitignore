@@ -2,6 +2,7 @@
 bookpic/
 models/
 *_output/
+output/
 __pycache__/
 
 # Python 相关
